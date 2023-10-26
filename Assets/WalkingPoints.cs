@@ -1,31 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class WalkingPoints : MonoBehaviour
+public class WalkingPoints: MonoBehaviour
 {
-    [SerializeField] Transform[] puntosCamino;
-    int indiceActual = 0;
-    int direccion = 1;
+    GameObject player;
+    private NavMeshAgent nav;
+    [SerializeField] bool playerNear;
+    [SerializeField] float speedChase;
 
-    private void Update()
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float patrolTimer;
+    [SerializeField] float patrolWaitingTime;
+    public Transform[] wayPoints;
+    int wayPointsIndex;
+    [SerializeField] int jugadorAtrapado;
+    // Start is called before the first frame update
+    void Start()
     {
+        nav = GetComponent<NavMeshAgent>();
+        player = GameObject.FindWithTag("Player");
 
-        if (puntosCamino != null && puntosCamino.Length > 0)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (playerNear)
         {
-            transform.position = puntosCamino[indiceActual].position;
-
-            indiceActual += direccion;
-
-            if (indiceActual >= puntosCamino.Length || indiceActual < 0)
-            {
-                direccion *= -1;
-
-                if (indiceActual >= puntosCamino.Length)
-                {
-                    indiceActual = 0;
-                }
-            }
+            nav.destination = player.transform.position;
+            nav.speed = speedChase;
+        }
+        else
+        {
+            Patrolling();
         }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerNear = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerNear = false;
+        }
+    }
+
+    public void Patrolling()
+    {
+        nav.speed = patrolSpeed;
+        nav.stoppingDistance = jugadorAtrapado;
+
+        if (nav.remainingDistance < nav.stoppingDistance)
+        {
+            patrolTimer += Time.deltaTime;
+
+            if (patrolTimer > patrolWaitingTime)
+            {
+                wayPointsIndex = (wayPointsIndex + 1) % wayPoints.Length;
+                patrolTimer = 0;
+            }
+
+            nav.destination = wayPoints[wayPointsIndex].position;
+        }
+    }
+
 }
