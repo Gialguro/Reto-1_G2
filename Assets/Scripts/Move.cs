@@ -6,16 +6,23 @@ public class Move : MonoBehaviour
 {
     public float speed = 5f;
     public float rotationSpeed = 20f;
+
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput);
-        movement.Normalize();
-        transform.position = transform.position + movement * speed * Time.deltaTime;
+        // Obtén la dirección del movimiento en el espacio mundial
+        Vector3 movement = new Vector3(horizontalInput, 0f, verticalInput).normalized;
 
-        if (movement != Vector3.zero) transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), rotationSpeed * Time.deltaTime);
+        // Aplica el movimiento en la dirección mundial
+        transform.Translate(movement * speed * Time.deltaTime, Space.World);
+
+        // Gira el objeto para que mire en la dirección del movimiento
+        if (movement != Vector3.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(movement, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+        }
     }
-
 }
