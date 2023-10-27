@@ -5,6 +5,7 @@ using UnityEngine;
 public class CollectableController : MonoBehaviour
 {
     public GameObject cherryItem;
+    public GameObject LogoCherry; 
     public int collectiblesToActivateCherry = 15;
 
     private List<GameObject> collectibles = new List<GameObject>();
@@ -18,8 +19,9 @@ public class CollectableController : MonoBehaviour
             collectibles.Add(child.gameObject);
         }
 
-        // Asegúrate de que el item Cherry esté desactivado al principio
+        // Asegúrate de que los objetos estén desactivados al principio
         cherryItem.SetActive(false);
+        LogoCherry.SetActive(false);
     }
 
     // Llamado cuando un objeto colectable es destruido
@@ -28,10 +30,11 @@ public class CollectableController : MonoBehaviour
         // Reduce el contador de colectables restantes
         collectiblesToActivateCherry--;
 
-        // Si se destruyeron suficientes colectables, activa el item Cherry
+        // Si se destruyeron suficientes colectables, activa los objetos
         if (collectiblesToActivateCherry <= 0)
         {
             cherryItem.SetActive(true);
+            LogoCherry.SetActive(true);
         }
     }
 
