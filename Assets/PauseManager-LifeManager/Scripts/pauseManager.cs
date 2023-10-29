@@ -33,8 +33,8 @@ public class pauseManager : MonoBehaviour
     public void modePlay()
     {
         pause = false;
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        gameObject.transform.GetChild(1).gameObject.SetActive(true);
+        //gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        //gameObject.transform.GetChild(1).gameObject.SetActive(true);
 
         Time.timeScale = 1;
     }

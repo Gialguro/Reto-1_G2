@@ -8,7 +8,12 @@ using UnityEngine.UI;
 public class LifeManager: MonoBehaviour
 {
     public static int lifes = 3;
-//    [SerializeField] private ScoreManager scoreManager;
+    public GameObject canvasLoose;
+
+    private void Start()
+    {
+        canvasLoose.SetActive(false);
+    }
     void Update()
     {
         //if (Input.GetKeyUp(KeyCode.Space))
@@ -51,12 +56,13 @@ public class LifeManager: MonoBehaviour
             gameObject.transform.GetChild(3).gameObject.SetActive(true);
             gameObject.transform.GetChild(4).gameObject.SetActive(true);
             gameObject.transform.GetChild(5).gameObject.SetActive(true);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+//            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 
             if (lifes == 0) 
             {
                 lifes = 3;
-//                scoreManager.resetScore();
+                Time.timeScale = 0;
+                canvasLoose.SetActive(true);
             }   
         }
     }
