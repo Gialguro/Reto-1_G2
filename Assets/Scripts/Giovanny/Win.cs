@@ -13,7 +13,7 @@ public class Win : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             
-            SceneManager.LoadScene(escenaARecargar);
+            SceneManager.LoadScene(2);
         }
     }
 }
