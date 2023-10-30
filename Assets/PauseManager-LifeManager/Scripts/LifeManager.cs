@@ -9,6 +9,13 @@ public class LifeManager: MonoBehaviour
 {
     public static int lifes = 3;
     public GameObject canvasLoose;
+    public AudioSource looseSource;
+    public AudioClip looseClip;
+
+    public AudioSource hitSource;
+    public AudioClip hitClip;
+
+    public AudioSource inGameMusic;
 
     private void Start()
     {
@@ -60,7 +67,9 @@ public class LifeManager: MonoBehaviour
 
             if (lifes == 0) 
             {
+                inGameMusic.Stop();
                 lifes = 3;
+                looseSource.PlayOneShot(looseClip);
                 Time.timeScale = 0;
                 canvasLoose.SetActive(true);
             }   
@@ -70,6 +79,7 @@ public class LifeManager: MonoBehaviour
     public IEnumerator vidaJugador()
     {
         lifes--;
+        hitSource.PlayOneShot(hitClip);
         yield return new WaitForSeconds(3);
     }
 }

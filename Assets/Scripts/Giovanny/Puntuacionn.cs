@@ -6,7 +6,10 @@ using UnityEngine.UI;
 public class Puntuacion : MonoBehaviour
 {
     private int puntos = 0;
-    public Text textoPuntuacion; 
+    public Text textoPuntuacion;
+
+    public AudioSource coinSource;
+    public AudioClip coinClip;
 
     private void Start()
     {
@@ -28,6 +31,7 @@ public class Puntuacion : MonoBehaviour
         if (textoPuntuacion != null)
         {
             textoPuntuacion.text = "Puntuación: " + puntos;
+            coinSource.PlayOneShot(coinClip);
         }
     }
 }

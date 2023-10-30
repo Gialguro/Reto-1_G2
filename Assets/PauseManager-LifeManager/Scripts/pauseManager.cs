@@ -46,4 +46,10 @@ public class pauseManager : MonoBehaviour
         }
         return null;
     }
+
+    public void modePlay2()
+    {
+        pause = false;
+        Time.timeScale = 1;
+    }
 }
